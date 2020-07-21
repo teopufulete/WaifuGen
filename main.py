@@ -17,3 +17,6 @@ def list_files(basePath, validExtentions = (".jpg", ".jpeg", ".png", ".bmp"), co
             # if the string is not none and the filename does not contain the supplied string, then ignore the file
             if contains is not None and filename.find(contains) == -1:
                 continue
+                
+            # determine the file extension of the current file
+            ext = filename[filename.rfind("."):].lower()
