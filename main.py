@@ -39,3 +39,5 @@ def load_images(directory = '../venv/data/data', size = (64,64)):
             image = cv2.resize(image, size)  # Resizing the image, in case some are not of the same size
             images.append(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     return images
+
+images = load_images('../venv/data/data')
