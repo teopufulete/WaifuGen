@@ -20,3 +20,9 @@ def list_files(basePath, validExtentions = (".jpg", ".jpeg", ".png", ".bmp"), co
                 
             # determine the file extension of the current file
             ext = filename[filename.rfind("."):].lower()
+            
+            # check to see if the file is an image and needs processing
+            if ext.endswith(validExtentions):
+                # construct the path to the image and yield it
+                imagePath = os.path.join(rootDir, filename).replace(" ", "\\ ")
+                yield imagePath
