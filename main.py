@@ -26,3 +26,16 @@ def list_files(basePath, validExtentions = (".jpg", ".jpeg", ".png", ".bmp"), co
                 # construct the path to the image and yield it
                 imagePath = os.path.join(rootDir, filename).replace(" ", "\\ ")
                 yield imagePath
+
+def load_images(directory = '../venv/data/data', size = (64,64)):
+    images, labels = [], []
+    label = 0
+
+    imagePaths = list(list_images(directory))
+    for path in imagePaths:
+        if not ('OSX' in path):
+            path = path.replace('\\', '/')
+            image = cv2.imread(path)  # Reading the image with OpenCV
+            image = cv2.resize(image, size)  # Resizing the image, in case some are not of the same size
+            images.append(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    return images
