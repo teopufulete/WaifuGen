@@ -62,3 +62,12 @@ class GAN():
                                    optimizer = optimizer,
                                    metrics = ['accuracy'])
         self.discriminator.trainable = False
+
+        self.generator = self.build_generator()
+        self.generator.compile(loss = 'binary_crossentropy', optimizer = optimizer)
+
+        self.combined = Sequential()
+        self.combined.add(self.generator)
+        self.combined.add(self.discriminator)
+        self.combined.compile(loss = 'binary_crossentropy', optimizer = optimizer)
+        self.combined.summary()
