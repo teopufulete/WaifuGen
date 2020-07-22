@@ -56,3 +56,9 @@ class GAN():
         self.img_shape = (64, 64, 3)
         self.noise_size = 100
         optimizer = Adam(0.0002, 0.5)
+
+        self.discriminator = self.build_discriminator()
+        self.discriminator.compile(loss = 'binary_crossentropy',
+                                   optimizer = optimizer,
+                                   metrics = ['accuracy'])
+        self.discriminator.trainable = False
