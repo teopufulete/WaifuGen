@@ -71,3 +71,38 @@ class GAN():
         self.combined.add(self.discriminator)
         self.combined.compile(loss = 'binary_crossentropy', optimizer = optimizer)
         self.combined.summary()
+        
+        def build_generator(self):
+            epsilon = 0.00001
+
+            model = Sequential()
+            model.add(Dense(4 * 4 * 512, activation = 'linear', input_shape = noise_shape))
+            model.add(LeakyReLU(alpha = 0.2))
+            model.add(Reshape((4, 4, 512)))
+
+            model.add(Conv2DTranspose(512, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+            model.add(LeakyReLU(alpha=0.2))
+
+            model.add(Conv2DTranspose(256, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+            model.add(LeakyReLU(alpha=0.2))
+
+            model.add(Conv2DTranspose(128, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+            model.add(LeakyReLU(alpha=0.2))
+
+            model.add(Conv2DTranspose(64, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+            model.add(LeakyReLU(alpha=0.2))
+
+            model.add(Conv2DTranspose(3, kernel_size=[4, 4], strides=[1, 1], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+
+            model.add(Activation("tanh"))
+            model.summary()
+
+            noise = Input(shape=noise_shape)
+            img = model(noise)
+
+            return Model(noise, img)
+
