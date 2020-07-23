@@ -43,7 +43,6 @@ def load_images(directory = '../venv/data/data', size = (64,64)):
 images = load_images('../venv/data/data')
       
         
-        
 class GAN():
     def __init__(self):
         self.img_shape = (64, 64, 3)
@@ -51,51 +50,57 @@ class GAN():
         optimizer = Adam(0.0002, 0.5)
 
         self.discriminator = self.build_discriminator()
-        self.discriminator.compile(loss = 'binary_crossentropy',
-                                   optimizer = optimizer,
-                                   metrics = ['accuracy'])
+        self.discriminator.compile(loss='binary_crossentropy',
+                                   optimizer=optimizer,
+                                   metrics=['accuracy'])
         self.discriminator.trainable = False
 
         self.generator = self.build_generator()
-        self.generator.compile(loss = 'binary_crossentropy', optimizer = optimizer)
+        self.generator.compile(loss='binary_crossentropy', optimizer=optimizer)
 
         self.combined = Sequential()
         self.combined.add(self.generator)
         self.combined.add(self.discriminator)
-        self.combined.compile(loss = 'binary_crossentropy', optimizer = optimizer)
+        self.combined.compile(loss='binary_crossentropy', optimizer=optimizer)
         self.combined.summary()
-        
-        def build_generator(self):
-            epsilon = 0.00001
 
-            model = Sequential()
-            model.add(Dense(4 * 4 * 512, activation = 'linear', input_shape = noise_shape))
-            model.add(LeakyReLU(alpha = 0.2))
-            model.add(Reshape((4, 4, 512)))
+    def build_generator(self):
+        epsilon = 0.00001
+        noise_shape = (self.noise_size,)
 
-            model.add(Conv2DTranspose(512, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
-            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
-            model.add(LeakyReLU(alpha=0.2))
+        model = Sequential()
+        model.add(Dense(4 * 4 * 512, activation='linear', input_shape=noise_shape))
+        model.add(LeakyReLU(alpha=0.2))
+        model.add(Reshape((4, 4, 512)))
 
-            model.add(Conv2DTranspose(256, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
-            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
-            model.add(LeakyReLU(alpha=0.2))
+        model.add(Conv2DTranspose(512, kernel_size=[4, 4], strides=[2, 2], padding="same",
+                                  kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+        model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+        model.add(LeakyReLU(alpha=0.2))
 
-            model.add(Conv2DTranspose(128, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
-            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
-            model.add(LeakyReLU(alpha=0.2))
+        model.add(Conv2DTranspose(256, kernel_size=[4, 4], strides=[2, 2], padding="same",
+                                  kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+        model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+        model.add(LeakyReLU(alpha=0.2))
 
-            model.add(Conv2DTranspose(64, kernel_size=[4, 4], strides=[2, 2], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
-            model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
-            model.add(LeakyReLU(alpha=0.2))
+        model.add(Conv2DTranspose(128, kernel_size=[4, 4], strides=[2, 2], padding="same",
+                                  kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+        model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+        model.add(LeakyReLU(alpha=0.2))
 
-            model.add(Conv2DTranspose(3, kernel_size=[4, 4], strides=[1, 1], padding="same", kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+        model.add(Conv2DTranspose(64, kernel_size=[4, 4], strides=[2, 2], padding="same",
+                                  kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
+        model.add(BatchNormalization(momentum=0.9, epsilon=epsilon))
+        model.add(LeakyReLU(alpha=0.2))
 
-            model.add(Activation("tanh"))
-            model.summary()
+        model.add(Conv2DTranspose(3, kernel_size=[4, 4], strides=[1, 1], padding="same",
+                                  kernel_initializer=keras.initializers.TruncatedNormal(stddev=0.02)))
 
-            noise = Input(shape=noise_shape)
-            img = model(noise)
+        model.add(Activation("tanh"))
+        model.summary()
 
-            return Model(noise, img)
+        noise = Input(shape=noise_shape)
+        img = model(noise)
+
+        return Model(noise, img)
 
