@@ -41,14 +41,7 @@ def load_images(directory = '../venv/data/data', size = (64,64)):
     return images
 
 images = load_images('../venv/data/data')
-
-
-_,ax = plt.subplots(5,5, figsize = (8,8))
-for i in range(5):
-    for j in range(5):
-        ax[i,j].imshow(images[5*i+j])
-        ax[i,j].axis('off')
-        
+      
         
         
 class GAN():
