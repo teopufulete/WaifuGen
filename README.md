@@ -1,2 +1,2 @@
 # WaifuGen
-DCGAN generation of anime girls
+Generate new waifus using StyleGAN2
