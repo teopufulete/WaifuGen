@@ -3,5 +3,5 @@ Generate new waifus using StyleGAN2
 
 
 ## Example
-![Waifu Gen Example](https://media3.giphy.com/media/MMzEFSEvPVCjuDxp2j/giphy.gif)
+![Waifu Gen Example](https://giphy.com/embed/MMzEFSEvPVCjuDxp2j)
 
