@@ -1,5 +1,5 @@
 # WaifuGen
-Generate new waifus using StyleGAN2
+Looking for the perfect waifu? Not wanting to share her with other weebs? Generate your own, perfectly original, 2d girl with StyleGAN.
 
 
 ## Example
